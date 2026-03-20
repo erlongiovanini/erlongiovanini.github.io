@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Erlon Giovanini — Plano de Treino</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,Arial,sans-serif;background:#F2F0EB;color:#0D0D0D;font-size:15px}
+:root{--gold:#B8956A;--gold-light:#F5EDE0;--grey:#6B6B6B;--lgrey:#E8E6E1;--offwht:#FAFAF8;--black:#0D0D0D}
+.hdr{background:var(--black);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.hbrand{color:#fff;font-weight:700;font-size:15px}.hsub{color:var(--gold);font-size:11px}
+.hero{background:var(--black);padding:24px 18px 20px;border-bottom:3px solid var(--gold)}
+.htag{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px}
+.hero h1{color:#fff;font-size:22px;font-weight:700}.hero h1 span{color:var(--gold)}
+.hinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.hitem{background:rgba(255,255,255,.07);border-radius:8px;padding:8px 12px}
+.hlbl{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.5px}.hval{color:#fff;font-size:13px;font-weight:600;margin-top:2px}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--lgrey);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;padding:13px 16px;font-size:13px;font-weight:700;color:var(--grey);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.main{max-width:680px;margin:0 auto;padding:14px}
+.pg{display:none}.pg.on{display:block}
+.loading{text-align:center;padding:40px;color:var(--grey);font-size:14px}
+.thead{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tbadge{background:var(--gold);color:#fff;font-weight:700;font-size:11px;padding:5px 12px;border-radius:6px;white-space:nowrap}
+.tname{font-size:16px;font-weight:700}
+.ecard{background:#fff;border-radius:10px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ehdr{padding:13px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ename{font-weight:700;font-size:14px}.emet{font-size:12px;color:var(--grey);margin-top:2px}
+.earr{color:var(--gold);font-size:20px;transition:transform .2s;line-height:1}
+.earr.open{transform:rotate(90deg)}
+.ebody{display:none;padding:0 14px 14px;border-top:1px solid var(--lgrey)}.ebody.open{display:block}
+.chips{display:flex;gap:7px;margin:10px 0;flex-wrap:wrap}
+.chip{background:var(--offwht);border:1px solid var(--lgrey);border-radius:6px;padding:4px 10px;font-size:12px}
+.chip b{color:var(--gold)}
+.ytbtn{display:inline-flex;align-items:center;gap:6px;background:#FF0000;color:#fff;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:700;text-decoration:none;margin-top:4px}
+.ytbtn svg{width:14px;height:14px;fill:#fff;flex-shrink:0}
+.csec{margin-top:14px}
+.clbl-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:8px}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.citem{text-align:center}
+.cwk{font-size:10px;color:var(--grey);margin-bottom:4px;font-weight:700}
+.cinp{width:100%;text-align:center;border:1.5px solid var(--lgrey);border-radius:7px;padding:8px 4px;font-size:14px;font-weight:700;color:var(--black);background:var(--gold-light);-webkit-appearance:none;outline:none}
+.cinp:focus{border-color:var(--gold)}
+.sbtn{margin-top:12px;width:100%;background:var(--gold);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation}
+.saved{text-align:center;color:var(--gold);font-size:12px;margin-top:6px;font-weight:700;display:none}
+.fcard{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ftitle{font-size:14px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.fgrp{margin-bottom:14px}
+.flbl{font-size:12px;font-weight:700;color:var(--grey);margin-bottom:6px;display:block}
+.fsel,.ftxt,.finp{width:100%;border:1.5px solid var(--lgrey);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--black);background:var(--offwht);outline:none;font-family:-apple-system,Arial,sans-serif;-webkit-appearance:none}
+.ftxt{min-height:80px;resize:vertical}
+.fsel:focus,.ftxt:focus,.finp:focus{border-color:var(--gold)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.plbl{font-size:10px;font-weight:700;color:var(--grey);margin-bottom:4px}
+.sem6{display:none;background:#FFF8E1;border-left:4px solid #F0A500;border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#7A5200;line-height:1.5}
+.subbtn{width:100%;background:var(--black);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation;margin-top:4px}
+.hitem2{border-left:3px solid var(--gold);padding:10px 12px;margin-bottom:10px;background:var(--offwht);border-radius:0 8px 8px 0}
+.hdate{font-size:11px;color:var(--grey);margin-bottom:4px}
+.hrow{font-size:12px;color:var(--grey);margin-top:3px}
+.card{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ctitle{font-size:13px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.ocard{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px}
+.otitle{font-size:14px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.oitem{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--lgrey);align-items:flex-start}
+.oitem:last-child{border-bottom:none}
+.odot{width:8px;height:8px;min-width:8px;background:var(--gold);border-radius:50%;margin-top:5px}
+.otxt{font-size:13px;line-height:1.5}
+.ctbl{width:100%;border-collapse:collapse;text-align:center;margin-top:10px}
+.ctbl th{background:var(--black);color:#fff;padding:8px;font-size:12px}
+.ctbl td{padding:10px;font-weight:700;font-size:15px;background:var(--offwht);border:1px solid var(--lgrey)}
+.ctbl td.a{background:var(--gold-light);color:var(--gold)}
+.ptbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.ptbl th{background:var(--black);color:#fff;padding:8px 10px;text-align:left}
+.ptbl td{padding:7px 10px;border-bottom:1px solid var(--lgrey)}
+.ptbl tr:nth-child(even) td{background:#F2F0EB}
+.ptbl tr.g td{background:var(--gold-light);color:var(--gold);font-weight:700}
+.ftr{text-align:center;padding:20px;color:var(--grey);font-size:11px;margin-top:6px}
+
+/* BOAS-VINDAS */
+.bv-overlay{position:fixed;inset:0;background:#F2F0EB;z-index:9999;overflow-y:auto;padding-bottom:100px}
+.bv-hero{background:var(--black);padding:28px 20px 24px;border-bottom:3px solid var(--gold);margin-bottom:0}
+.bv-tag{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px}
+.bv-hero h1{color:#fff;font-size:22px;font-weight:700}
+.bv-hero h1 span{color:var(--gold)}
+.bv-hero p{color:#aaa;font-size:13px;margin-top:6px}
+.bv-content{max-width:680px;margin:0 auto;padding:16px}
+.bv-section{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.bv-title{font-size:14px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.bv-item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--lgrey);align-items:flex-start}
+.bv-item:last-child{border-bottom:none}
+.bv-dot{width:8px;height:8px;min-width:8px;background:var(--gold);border-radius:50%;margin-top:5px}
+.bv-txt{font-size:13px;line-height:1.5}
+.bv-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--lgrey);padding:14px 20px;z-index:10000}
+.bv-btn{width:100%;background:var(--black);color:#fff;border:none;border-radius:10px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation;display:flex;align-items:center;justify-content:center;gap:8px}
+.bv-btn:hover{opacity:.85}
+.ptbl2{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.ptbl2 th{background:var(--gold);color:#fff;padding:8px 10px;text-align:left;font-size:12px}
+.ptbl2 td{padding:8px 10px;border-bottom:1px solid var(--lgrey);font-size:13px}
+.ptbl2 tr:nth-child(even) td{background:var(--offwht)}
+.erro{text-align:center;padding:40px 20px}
+.erro h2{color:#e74c3c;margin-bottom:10px}.erro p{color:var(--grey);font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div><div class="hbrand">ERLON GIOVANINI</div><div class="hsub">Personal Trainer · CREF 028410 G/PR</div></div>
+  <div style="color:var(--gold);font-size:11px">@erlongiovanini</div>
+</div>
+
+<div id="hero-wrap"></div>
+
+<div class="tabs" id="tabs-wrap" style="display:none">
+  <div class="tab on" onclick="showTab('treinos',this)" ontouchstart="">🏋️ Treinos</div>
+  <div class="tab" onclick="showTab('feedback',this)" ontouchstart="">📋 Feedback</div>
+  <div class="tab" onclick="showTab('historico',this)" ontouchstart="">📊 Histórico</div>
+  <div class="tab" onclick="showTab('orientacoes',this)" ontouchstart="">📌 Orientações</div>
+</div>
+
+<div class="main" id="main-wrap">
+  <div class="loading">⏳ Carregando seu treino...</div>
+</div>
+
+<div class="ftr">
+  Erlon Giovanini · CREF 028410 G/PR · (43) 99900-8064<br>
+  <span style="color:var(--gold)">@erlongiovanini</span>
+</div>
+
+<!-- BOAS-VINDAS OVERLAY -->
+<div class="bv-overlay" id="bv-overlay" style="display:none">
+  <div class="bv-hero">
+    <div class="bv-tag">BEM-VINDA</div>
+    <h1>Olá, <span id="bv-nome"></span>! 👋</h1>
+    <p>Antes de começar, leia com atenção as orientações do seu treino.</p>
+  </div>
+  <div class="bv-content" id="bv-content"></div>
+  <div class="bv-footer">
+    <button class="bv-btn" onclick="fecharBoasVindas()" ontouchstart="">Entendi, vamos treinar! 💪</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAoPUBPNSPPzd67L0FQDBHtUe4CoxTzkaA",
+  authDomain: "erlon-consultoria.firebaseapp.com",
+  projectId: "erlon-consultoria",
+  storageBucket: "erlon-consultoria.firebasestorage.app",
+  messagingSenderId: "8286279189",
+  appId: "1:8286279189:web:c8255d120df62613e8e01c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const params = new URLSearchParams(window.location.search);
+const alunaId = params.get('id');
+let aluna = null;
+let cargas = {};
+
+async function init() {
+  if (!alunaId) { mostrarErro('Link inválido', 'Nenhuma aluna especificada neste link.'); return; }
+  try {
+    const snap = await getDoc(doc(db, 'alunas', alunaId));
+    if (!snap.exists()) { mostrarErro('Treino não encontrado', 'Verifique o link com seu treinador.'); return; }
+    aluna = snap.data();
+    cargas = aluna.cargas || {};
+    renderPage();
+  } catch(e) {
+    mostrarErro('Erro ao carregar', 'Verifique sua conexão e tente novamente.');
+  }
+}
+
+function mostrarErro(titulo, msg) {
+  document.getElementById('main-wrap').innerHTML = '<div class="erro"><h2>⚠️ ' + titulo + '</h2><p>' + msg + '</p></div>';
+}
+
+function renderPage() {
+  // HERO
+  document.getElementById('hero-wrap').innerHTML = `
+    <div class="hero">
+      <div class="htag">PLANO DE TREINO</div>
+      <h1>Olá, <span>${aluna.nome}</span>! 👋</h1>
+      <div style="color:#aaa;font-size:13px;margin-top:4px">Seu plano personalizado de 6 semanas</div>
+      <div class="hinfo">
+        <div class="hitem"><div class="hlbl">OBJETIVO</div><div class="hval">${aluna.objetivo||'—'}</div></div>
+        <div class="hitem"><div class="hlbl">PLANO</div><div class="hval">${aluna.plano||'—'}</div></div>
+        <div class="hitem"><div class="hlbl">INÍCIO</div><div class="hval">${aluna.inicio||'—'}</div></div>
+        <div class="hitem"><div class="hlbl">ENCERRAMENTO</div><div class="hval">${aluna.fim||'—'}</div></div>
+      </div>
+    </div>`;
+
+  document.getElementById('tabs-wrap').style.display = 'flex';
+
+  // MAIN CONTENT
+  const main = document.getElementById('main-wrap');
+  main.innerHTML = `
+    <div class="pg on" id="pg-treinos"><div id="treinos-container"></div></div>
+    <div class="pg" id="pg-feedback">${renderFeedbackForm()}</div>
+    <div class="pg" id="pg-historico"><div class="fcard"><div class="ftitle">📊 Histórico de Feedbacks</div><div id="hist-lista" style="color:var(--grey);font-size:13px">Nenhum feedback ainda.</div></div></div>
+    <div class="pg" id="pg-orientacoes">${renderOrientacoes()}</div>`;
+
+  renderTreinos();
+  renderHist();
+  mostrarBoasVindas();
+}
+
+function renderTreinos() {
+  const container = document.getElementById('treinos-container');
+  container.innerHTML = '';
+  (aluna.treinos || []).forEach(t => {
+    const div = document.createElement('div');
+    div.innerHTML = '<div class="thead"><div class="tbadge">TREINO ' + t.num + '</div><div class="tname">' + t.nome + '</div></div>';
+    t.exercicios.forEach((ex, ei) => {
+      const key = 't' + t.num + '_e' + ei;
+      const saved = cargas[key] || ['','','','','',''];
+      const ecard = document.createElement('div');
+      ecard.className = 'ecard';
+      const eid = 'e_' + t.num + '_' + ei;
+
+      let semanas = '';
+      for (let s = 1; s <= 6; s++) {
+        semanas += '<div class="citem"><div class="cwk">SEM ' + s + '</div>'
+          + '<input class="cinp" type="text" inputmode="decimal" placeholder="—" value="' + (saved[s-1]||'') + '"'
+          + ' data-key="' + key + '" data-idx="' + (s-1) + '" oninput="uC(this)">'
+          + '</div>';
+      }
+
+      const ytBtn = ex.yt ? '<a class="ytbtn" href="' + ex.yt + '" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/></svg>Ver demonstração</a>' : '';
+
+      ecard.innerHTML = '<div class="ehdr" onclick="tog(\'' + eid + '\')" ontouchstart=""><div><div class="ename">' + ex.nome + '</div><div class="emet">' + ex.metodo + '</div></div><div class="earr" id="arr-' + eid + '">›</div></div>'
+        + '<div class="ebody" id="' + eid + '">'
+        + '<div class="chips"><div class="chip"><b>CAD.</b> ' + ex.cad + '</div><div class="chip"><b>SÉRIES</b> ' + ex.series + '</div><div class="chip"><b>OBS.</b> ' + ex.obs + '</div></div>'
+        + ytBtn
+        + '<div class="csec"><div class="clbl-title">REGISTRO DE CARGA</div>'
+        + '<div class="cgrid">' + semanas + '</div>'
+        + '<button class="sbtn" data-key="' + key + '" onclick="sC(this)" ontouchstart="">Salvar cargas 💾</button>'
+        + '<div class="saved" id="sv-' + key + '">✅ Salvo!</div>'
+        + '</div></div>';
+
+      div.appendChild(ecard);
+    });
+    container.appendChild(div);
+  });
+}
+
+function renderFeedbackForm() {
+  return `<div class="fcard">
+    <div class="ftitle">📋 Feedback Semanal</div>
+    <div class="sem6" id="alerta6">📸 <strong>Você está na semana 6!</strong> Não esqueça de enviar as fotos de avaliação para o Erlon via WhatsApp junto com este feedback.</div>
+    <div class="fgrp"><label class="flbl">🔹 Qual semana da planilha você está?</label>
+      <select class="fsel" id="f-sem" onchange="chkSem()">
+        <option value="">Selecione...</option>
+        <option value="1">Semana 1</option><option value="2">Semana 2</option>
+        <option value="3">Semana 3</option><option value="4">Semana 4</option>
+        <option value="5">Semana 5</option><option value="6">Semana 6 — última semana 📸</option>
+      </select></div>
+    <div class="fgrp"><label class="flbl">🔹 Treinos da semana</label>
+      <select class="fsel" id="f-treinos">
+        <option value="">Selecione...</option>
+        <option>Fiz todos os treinos ✅</option><option>Faltei 1 treino</option>
+        <option>Faltei 2 treinos</option><option>Fiz menos da metade</option>
+        <option>Não consegui treinar essa semana</option>
+      </select></div>
+    <div class="fgrp"><label class="flbl">🔹 Peso corporal — preencha sua semana atual</label>
+      <div class="pgrid">
+        <div><div class="plbl">PESO INICIAL</div><input class="finp" id="f-p0" type="text" inputmode="decimal" placeholder="Ex: 65.0 kg"></div>
+        <div><div class="plbl">SEMANA 1</div><input class="finp" id="f-p1" type="text" inputmode="decimal" placeholder="kg"></div>
+        <div><div class="plbl">SEMANA 2</div><input class="finp" id="f-p2" type="text" inputmode="decimal" placeholder="kg"></div>
+        <div><div class="plbl">SEMANA 3</div><input class="finp" id="f-p3" type="text" inputmode="decimal" placeholder="kg"></div>
+        <div><div class="plbl">SEMANA 4</div><input class="finp" id="f-p4" type="text" inputmode="decimal" placeholder="kg"></div>
+        <div><div class="plbl">SEMANA 5</div><input class="finp" id="f-p5" type="text" inputmode="decimal" placeholder="kg"></div>
+        <div><div class="plbl">SEMANA 6</div><input class="finp" id="f-p6" type="text" inputmode="decimal" placeholder="kg"></div>
+      </div></div>
+    <div class="fgrp"><label class="flbl">🔹 Dieta</label>
+      <select class="fsel" id="f-dieta">
+        <option value="">Selecione...</option>
+        <option>Excelente — segui tudo certinho 🥗</option><option>Boa — segui a maior parte</option>
+        <option>Regular — tive algumas escapadas</option><option>Ruim — fugi bastante da dieta</option>
+      </select></div>
+    <div class="fgrp"><label class="flbl">🔹 Ingestão de Água</label>
+      <select class="fsel" id="f-agua">
+        <option value="">Selecione...</option>
+        <option>Ótima — mais de 2L por dia 💧</option><option>Boa — entre 1,5L e 2L</option>
+        <option>Regular — menos de 1,5L</option><option>Ruim — esqueci de me hidratar</option>
+      </select></div>
+    <div class="fgrp"><label class="flbl">🔹 Feedback geral</label>
+      <textarea class="ftxt" id="f-obs" placeholder="Observações, queixas ou dificuldades no treino..."></textarea></div>
+    <button class="subbtn" onclick="enviarFeedback()" ontouchstart="">Enviar Feedback 🚀</button>
+  </div>`;
+}
+
+function renderOrientacoes() {
+  const crono = aluna.crono || ['—','—','—','—','—','—','—'];
+  const cronoA = aluna.cronoA || [false,false,false,false,false,false,false];
+  const dias = ['SEG','TER','QUA','QUIN','SEX','SÁB','DOM'];
+  return `<div class="ocard"><div class="otitle">📋 Orientações do Treino</div>
+    <div class="oitem"><div class="odot"></div><div class="otxt">Siga rigorosamente o cronograma semanal proposto.</div></div>
+    <div class="oitem"><div class="odot"></div><div class="otxt">Execute os exercícios na ordem em que aparecem na prescrição.</div></div>
+    <div class="oitem"><div class="odot"></div><div class="otxt">Dúvidas serão respondidas via WhatsApp.</div></div>
+    <div class="oitem"><div class="odot"></div><div class="otxt">Registre suas cargas — fundamental para sua progressão!</div></div>
+    <div class="oitem"><div class="odot"></div><div class="otxt">5 sessões de cardio por semana — 30 min na PSE 6. Nunca antes da musculação.</div></div>
+    <div class="oitem"><div class="odot"></div><div class="otxt">2x por semana: 2 séries de 10–12 reps de Abd Crunch no cabo ou banco declinado.</div></div>
+    <div class="oitem"><div class="odot"></div><div class="otxt">Mantenha a rotina de alongamentos.</div></div>
+  </div>
+  <div class="ocard"><div class="otitle">📅 Cronograma Semanal</div>
+    <table class="ctbl"><tr>${dias.map(d => '<th>' + d + '</th>').join('')}</tr>
+    <tr>${crono.map((v,i) => '<td class="' + (cronoA[i]?'a':'') + '">' + v + '</td>').join('')}</tr></table>
+  </div>
+  <div class="ocard"><div class="otitle">💓 Escala PSE</div>
+    <table class="ptbl">
+      <tr><th>Nível</th><th>Esforço</th><th>Sinais</th></tr>
+      <tr><td>0–2</td><td>Mínimo</td><td>Sensação de movimento</td></tr>
+      <tr><td>3–4</td><td>Moderado</td><td>Calor</td></tr>
+      <tr><td>5</td><td>Difícil</td><td>Começa a suar</td></tr>
+      <tr class="g"><td>6 ★</td><td>Mais difícil</td><td>Moderada sudorese — USE AQUI</td></tr>
+      <tr><td>7–8</td><td>Muito difícil</td><td>Sudorese intensa</td></tr>
+      <tr><td>9–10</td><td>Máximo</td><td>Exaustão</td></tr>
+    </table>
+  </div>`;
+}
+
+function renderHist() {
+  const div = document.getElementById('hist-lista');
+  if (!div) return;
+  const fbs = aluna.feedbacks || [];
+  if (!fbs.length) { div.innerHTML = '<span style="color:var(--grey)">Nenhum feedback ainda.</span>'; return; }
+  div.innerHTML = fbs.slice().reverse().slice(0,10).map(f => {
+    const pesoAtual = f.pesos ? f.pesos.filter(p=>p).pop() : '';
+    return '<div class="hitem2"><div class="hdate">' + (f.data||'') + ' — Semana ' + f.sem + '</div>'
+      + (pesoAtual ? '<div style="font-size:13px;font-weight:700;color:var(--gold);margin:4px 0">⚖️ ' + pesoAtual + ' kg</div>' : '')
+      + (f.treinos ? '<div class="hrow">🏋️ ' + f.treinos + '</div>' : '')
+      + (f.dieta ? '<div class="hrow">🥗 ' + f.dieta + '</div>' : '')
+      + (f.agua ? '<div class="hrow">💧 ' + f.agua + '</div>' : '')
+      + (f.obs ? '<div style="font-size:13px;margin-top:6px"><b>Obs:</b> ' + f.obs + '</div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+// ── CARGAS ────────────────────────────────────────
+window.uC = function(inp) {
+  const k = inp.getAttribute('data-key');
+  const i = parseInt(inp.getAttribute('data-idx'));
+  if (!cargas[k]) cargas[k] = ['','','','','',''];
+  cargas[k][i] = inp.value;
+};
+
+window.sC = async function(btn) {
+  const k = btn.getAttribute('data-key');
+  try {
+    await updateDoc(doc(db, 'alunas', alunaId), { ['cargas.' + k]: cargas[k] });
+    const sv = document.getElementById('sv-' + k);
+    if (sv) { sv.style.display = 'block'; setTimeout(() => sv.style.display = 'none', 2000); }
+  } catch(e) { alert('Erro ao salvar. Verifique sua conexão.'); }
+};
+
+// ── FEEDBACK ──────────────────────────────────────
+window.chkSem = function() {
+  const sel = document.getElementById('f-sem');
+  const al = document.getElementById('alerta6');
+  if (al) al.style.display = sel.value === '6' ? 'block' : 'none';
+};
+
+window.enviarFeedback = async function() {
+  const sem = document.getElementById('f-sem').value;
+  const treinos = document.getElementById('f-treinos').value;
+  if (!sem || !treinos) { alert('Preencha a semana e os treinos realizados!'); return; }
+  const pesos = [];
+  for (let i = 0; i <= 6; i++) {
+    const inp = document.getElementById('f-p' + i);
+    pesos.push(inp ? inp.value : '');
+  }
+  const entry = {
+    ts: Date.now(),
+    data: new Date().toLocaleDateString('pt-BR'),
+    sem, treinos, pesos,
+    dieta: document.getElementById('f-dieta').value,
+    agua: document.getElementById('f-agua').value,
+    obs: document.getElementById('f-obs').value
+  };
+  try {
+    await updateDoc(doc(db, 'alunas', alunaId), {
+      feedbacks: arrayUnion(entry),
+      semAtual: parseInt(sem)
+    });
+    if (!aluna.feedbacks) aluna.feedbacks = [];
+    aluna.feedbacks.push(entry);
+    aluna.semAtual = parseInt(sem);
+    renderHist();
+    ['f-sem','f-treinos','f-dieta','f-agua'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    for (let i = 0; i <= 6; i++) { const el = document.getElementById('f-p' + i); if(el) el.value=''; }
+    const obs = document.getElementById('f-obs'); if(obs) obs.value='';
+    const al = document.getElementById('alerta6'); if(al) al.style.display='none';
+    alert('✅ Feedback enviado! O Erlon irá analisar em breve.');
+  } catch(e) { alert('Erro ao enviar. Verifique sua conexão.'); }
+};
+
+// ── UI ────────────────────────────────────────────
+window.tog = function(eid) {
+  const body = document.getElementById(eid);
+  const arr = document.getElementById('arr-' + eid);
+  if (!body) return;
+  if (body.className === 'ebody') { body.className = 'ebody open'; arr.className = 'earr open'; }
+  else { body.className = 'ebody'; arr.className = 'earr'; }
+};
+
+window.showTab = function(id, el) {
+  document.querySelectorAll('.pg').forEach(p => p.className = 'pg');
+  document.querySelectorAll('.tab').forEach(t => t.className = 'tab');
+  document.getElementById('pg-' + id).className = 'pg on';
+  el.className = 'tab on';
+};
+
+const PSE_DATA = [
+  {n:'0',   esforco:'Nenhum',              sinais:'Nenhum'},
+  {n:'1',   esforco:'Mínimo',              sinais:'Sensação de movimento'},
+  {n:'2',   esforco:'Pouco',               sinais:'Sensação de movimento'},
+  {n:'3',   esforco:'Moderado',            sinais:'Forte sensação de movimento'},
+  {n:'4',   esforco:'Um pouco difícil',    sinais:'Calor'},
+  {n:'5',   esforco:'Difícil',             sinais:'Começa a suar'},
+  {n:'6',   esforco:'Mais difícil',        sinais:'Moderada sudorese'},
+  {n:'7',   esforco:'Muito difícil',       sinais:'Sudorese e respiração intensa'},
+  {n:'8',   esforco:'Extremamente difícil',sinais:'Transpiração intensa, dificuldade na respiração'},
+  {n:'9',   esforco:'Esforço máximo',      sinais:'Sudorese máxima, sem respiração'},
+  {n:'10',  esforco:'Fadiga total',        sinais:'Exaustão completa'},
+];
+
+function renderPSE(pse) {
+  const alvo = String(pse || '6');
+  let rows = PSE_DATA.map(p => {
+    const ativo = p.n === alvo;
+    const bg    = ativo ? 'background:var(--gold-light)' : '';
+    const cor   = ativo ? 'color:var(--gold);font-weight:700' : '';
+    const star  = ativo ? ' ⭐' : '';
+    return '<tr style="' + bg + '">'
+      + '<td style="' + cor + '">' + p.n + star + '</td>'
+      + '<td style="' + cor + '">' + p.esforco + (ativo ? ' — USE AQUI' : '') + '</td>'
+      + '<td style="' + cor + '">' + p.sinais + '</td>'
+      + '</tr>';
+  }).join('');
+  return '<table class="ptbl"><tr><th>Nível</th><th>Esforço</th><th>Sinais</th></tr>' + rows + '</table>';
+}
+
+// ── BOAS-VINDAS ───────────────────────────────────
+function mostrarBoasVindas() {
+  const key = 'bv_' + alunaId;
+  const jaViu = localStorage.getItem(key);
+  if (jaViu) return; // já viu antes, não mostra
+
+  document.getElementById('bv-nome').textContent = aluna.nome.split(' ')[0];
+
+  // Build content
+  let html = '';
+
+  // Orientações gerais
+  html += '<div class="bv-section"><div class="bv-title">📋 Orientações do Treino</div>';
+  const orients = [
+    'Siga rigorosamente o cronograma semanal proposto.',
+    'Execute os exercícios na ordem em que aparecem na prescrição.',
+    'Dúvidas serão respondidas via WhatsApp.',
+    'Registre suas cargas — fundamental para sua progressão!',
+    'Mantenha a rotina de alongamentos.'
+  ];
+  orients.forEach(o => {
+    html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt">' + o + '</div></div>';
+  });
+  html += '</div>';
+
+  // Cardio
+  if (aluna.cardio && aluna.cardio.freq) {
+    html += '<div class="bv-section"><div class="bv-title">🚴 Cardio Semanal</div>';
+    html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt"><strong>Frequência:</strong> ' + aluna.cardio.freq + '</div></div>';
+    html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt"><strong>Duração:</strong> ' + aluna.cardio.dur + '</div></div>';
+    html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt"><strong>Intensidade:</strong> PSE ' + aluna.cardio.pse + '</div></div>';
+    if (aluna.cardio.mod) html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt"><strong>Modalidade:</strong> ' + aluna.cardio.mod + '</div></div>';
+    if (aluna.cardio.obs) html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt" style="color:#c0392b">⚠️ ' + aluna.cardio.obs + '</div></div>';
+    html += '</div>';
+  }
+
+  // Abdômen
+  if (aluna.abd && aluna.abd.ex) {
+    html += '<div class="bv-section"><div class="bv-title">💪 Rotina de Abdômen</div>';
+    html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt"><strong>Frequência:</strong> ' + aluna.abd.freq + '</div></div>';
+    html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt"><strong>Exercício:</strong> ' + aluna.abd.ex + '</div></div>';
+    html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt"><strong>Séries e reps:</strong> ' + aluna.abd.series + ' séries de ' + aluna.abd.reps + ' reps</div></div>';
+    if (aluna.abd.obs && aluna.abd.obs !== '—') html += '<div class="bv-item"><div class="bv-dot"></div><div class="bv-txt" style="color:#c0392b">⚠️ ' + aluna.abd.obs + '</div></div>';
+    html += '</div>';
+  }
+
+  // PSE
+  html += '<div class="bv-section"><div class="bv-title">💓 Escala PSE</div>' + renderPSE(aluna.cardio?.pse) + '</div>';
+
+  document.getElementById('bv-content').innerHTML = html;
+  document.getElementById('bv-overlay').style.display = 'block';
+}
+
+window.fecharBoasVindas = function() {
+  try { localStorage.setItem('bv_' + alunaId, '1'); } catch(e) {}
+  document.getElementById('bv-overlay').style.display = 'none';
+};
+
+function renderCardio(cardio) {
+  if (!cardio || !cardio.freq) return '';
+  return '<div class="ocard">'
+    + '<div class="otitle">🚴 Cardio Semanal</div>'
+    + '<table class="ptbl2">'
+    + '<tr><th>Frequência</th><th>Duração</th><th>Intensidade</th><th>Modalidade</th></tr>'
+    + '<tr><td>' + (cardio.freq||'—') + '</td><td>' + (cardio.dur||'—') + '</td><td>PSE ' + (cardio.pse||'—') + '</td><td>' + (cardio.mod||'—') + '</td></tr>'
+    + '</table>'
+    + (cardio.obs ? '<div style="margin-top:8px;font-size:12px;color:var(--grey)">⚠️ ' + cardio.obs + '</div>' : '')
+    + '</div>';
+}
+
+function renderAbd(abd) {
+  if (!abd || !abd.ex) return '';
+  return '<div class="ocard">'
+    + '<div class="otitle">💪 Rotina de Abdômen</div>'
+    + '<table class="ptbl2">'
+    + '<tr><th>Frequência</th><th>Exercício</th><th>Séries</th><th>Repetições</th></tr>'
+    + '<tr><td>' + (abd.freq||'—') + '</td><td>' + (abd.ex||'—') + '</td><td>' + (abd.series||'—') + '</td><td>' + (abd.reps||'—') + '</td></tr>'
+    + '</table>'
+    + (abd.obs && abd.obs !== '—' ? '<div style="margin-top:8px;font-size:12px;color:var(--grey)">⚠️ ' + abd.obs + '</div>' : '')
+    + '</div>';
+}
+
+init();
+</script>
+</body>
+</html>
