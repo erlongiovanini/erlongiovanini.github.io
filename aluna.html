@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Erlon Giovanini — Plano de Treino</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,Arial,sans-serif;background:#F2F0EB;color:#0D0D0D;font-size:15px}
+:root{--gold:#B8956A;--gold-light:#F5EDE0;--grey:#6B6B6B;--lgrey:#E8E6E1;--offwht:#FAFAF8;--black:#0D0D0D}
+.hdr{background:var(--black);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.hero-card{background:#1c1c1c;border:1px solid rgba(184,149,106,.35);border-radius:16px;padding:20px 16px 16px;margin:0 2px;box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 1px rgba(184,149,106,.1);position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hbrand{color:#fff;font-weight:700;font-size:15px}.hsub{color:var(--gold);font-size:11px}
+.hero{background:var(--black);padding:16px 16px 20px}
+.htag{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px}
+.hero h1{color:#fff;font-size:22px;font-weight:700}.hero h1 span{color:var(--gold)}
+.hinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.hitem{background:rgba(255,255,255,.07);border-radius:8px;padding:8px 12px}
+.hlbl{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.5px}.hval{color:#fff;font-size:13px;font-weight:600;margin-top:2px}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--lgrey);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;padding:13px 16px;font-size:13px;font-weight:700;color:var(--grey);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.main{max-width:680px;margin:0 auto;padding:14px}
+.pg{display:none}.pg.on{display:block}
+.loading{text-align:center;padding:40px;color:var(--grey);font-size:14px}
+/* ── BOTTOM NAV ─────────────────────────── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:1px solid var(--lgrey);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;color:var(--grey);font-size:10px;font-weight:600;gap:4px;border:none;background:none;-webkit-tap-highlight-color:transparent}
+.bnav-item svg{width:22px;height:22px;stroke:var(--grey);transition:stroke .15s}
+.bnav-item span{font-size:10px;font-weight:600;color:var(--grey);transition:color .15s}
+.bnav-item.on svg{stroke:var(--gold)}
+.bnav-item.on span{color:var(--gold)}
+.main{padding-bottom:80px}
+
+/* ── TREINO CAROUSEL ────────────────────── */
+.treino-carousel{display:flex;gap:14px;overflow-x:scroll;padding:16px 0 24px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center}
+.treino-carousel::-webkit-scrollbar{display:none}
+.treino-carousel::before,.treino-carousel::after{content:'';flex:0 0 calc(14% - 7px);min-width:calc(14% - 7px)}
+.treino-card{flex:0 0 72%;scroll-snap-align:center;border-radius:20px;overflow:hidden;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.18);transition:transform .3s ease,opacity .3s ease,box-shadow .3s ease;transform:scale(0.85);opacity:.6}
+.treino-card.active{transform:scale(1);opacity:1;box-shadow:0 10px 36px rgba(0,0,0,.32)}
+.tc-img{width:100%;height:420px;background-size:cover;background-position:center;position:relative}
+.tc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.05) 65%)}
+.tc-info{position:absolute;bottom:0;left:0;right:0;padding:16px 18px}
+.tc-badge{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;margin-bottom:6px;letter-spacing:.5px}
+.tc-name{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.3}
+.tc-count{font-size:12px;color:rgba(255,255,255,.8)}
+
+/* ── TREINO DETAIL ──────────────────────── */
+.td-header{display:flex;align-items:center;gap:12px;padding:16px 16px 14px;margin-bottom:14px;background:var(--gold);position:sticky;top:0;z-index:10;border-radius:0 0 14px 14px}
+.td-back{background:none;border:none;font-size:26px;color:#fff;font-weight:700;cursor:pointer;padding:4px 10px 4px 0;-webkit-tap-highlight-color:transparent;line-height:1}
+.td-back:active{opacity:.7}
+.td-badge{display:inline-block;background:#fff;color:var(--gold);font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;margin-bottom:5px;letter-spacing:.5px}
+.td-name{font-size:18px;font-weight:700;color:#fff;line-height:1.2}
+
+/* ── EXTRA CARD (cardio/abd) ────────────── */
+.collapsible-hdr{display:flex;justify-content:space-between;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.extra-arrow{font-size:16px;color:var(--gold);font-weight:700;transition:transform .2s}
+.extra-body{padding-top:8px}
+
+.crono-wrap{padding:16px 16px 8px;border-top:1px solid rgba(255,255,255,.1)}
+.crono-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px}
+.crono-row{display:flex;gap:6px;justify-content:space-between}
+.crono-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 6px;border-radius:10px;background:rgba(255,255,255,.07)}
+.crono-day.crono-active{background:rgba(184,149,106,.15)}
+.crono-day.crono-today{background:rgba(255,255,255,.12);box-shadow:0 0 0 1.5px rgba(255,255,255,.3)}
+.crono-day.crono-today-active{background:var(--gold);box-shadow:0 2px 10px rgba(184,149,106,.5)}
+.crono-dia{font-size:9px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px}
+.crono-day.crono-today .crono-dia,.crono-day.crono-today-active .crono-dia{color:rgba(255,255,255,.9)}
+.crono-day.crono-active .crono-dia{color:var(--gold)}
+.crono-num{font-size:15px;font-weight:800;color:rgba(255,255,255,.25)}
+.crono-day.crono-active .crono-num{color:var(--gold)}
+.crono-day.crono-today .crono-num{color:#fff}
+.crono-day.crono-today-active .crono-num{color:#fff;font-size:16px}
+.crono-dot{width:5px;height:5px;border-radius:50%;background:#fff;opacity:.8}
+.treino-toggle{cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center}
+.treino-toggle:active{opacity:.8}
+.treino-arrow{font-size:18px;color:var(--gold);font-weight:700;transition:transform .2s;flex-shrink:0}
+.treino-body{border:1px solid var(--lgrey);border-top:none;border-radius:0 0 10px 10px;overflow:hidden}
+.thead{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tbadge{background:var(--gold);color:#fff;font-weight:700;font-size:11px;padding:5px 12px;border-radius:6px;white-space:nowrap}
+.tname{font-size:16px;font-weight:700}
+.ecard{background:#fff;border-radius:10px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ehdr{padding:13px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ename{font-weight:700;font-size:14px}.emet{font-size:12px;color:var(--grey);margin-top:2px}
+.earr{color:var(--gold);font-size:20px;transition:transform .2s;line-height:1}
+.earr.open{transform:rotate(90deg)}
+.ebody{display:none;padding:0 14px 14px;border-top:1px solid var(--lgrey)}
+.ename-link{font-size:15px;font-weight:700;color:var(--gold);text-decoration:underline;text-underline-offset:3px;display:block}
+.ename-link:active{opacity:.7}.ebody.open{display:block}
+.chips{display:flex;gap:7px;margin:10px 0;flex-wrap:wrap}
+.chip{background:var(--offwht);border:1px solid var(--lgrey);border-radius:6px;padding:4px 10px;font-size:12px}
+.chip b{color:var(--gold)}
+.ytbtn{display:inline-flex;align-items:center;gap:6px;background:#FF0000;color:#fff;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:700;text-decoration:none;margin-top:4px}
+.ytbtn svg{width:14px;height:14px;fill:#fff;flex-shrink:0}
+.csec{margin-top:14px}
+.clbl-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:8px}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.citem{text-align:center}
+.cwk{font-size:10px;color:var(--grey);margin-bottom:4px;font-weight:700}
+.cinp{width:100%;text-align:center;border:1.5px solid var(--lgrey);border-radius:7px;padding:8px 4px;font-size:14px;font-weight:700;color:var(--black);background:var(--gold-light);-webkit-appearance:none;outline:none}
+.cinp:focus{border-color:var(--gold)}
+.sbtn{margin-top:12px;width:100%;background:var(--gold);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation}
+.saved{text-align:center;color:var(--gold);font-size:12px;margin-top:6px;font-weight:700;display:none}
+.fcard{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ftitle{font-size:14px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.fgrp{margin-bottom:14px}
+.flbl{font-size:12px;font-weight:700;color:var(--grey);margin-bottom:6px;display:block}
+.fsel,.ftxt,.finp{width:100%;border:1.5px solid var(--lgrey);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--black);background:var(--offwht);outline:none;font-family:-apple-system,Arial,sans-serif;-webkit-appearance:none}
+.ftxt{min-height:80px;resize:vertical}
+.fsel:focus,.ftxt:focus,.finp:focus{border-color:var(--gold)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.plbl{font-size:10px;font-weight:700;color:var(--grey);margin-bottom:4px}
+.sem6{display:none;background:#FFF8E1;border-left:4px solid #F0A500;border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#7A5200;line-height:1.5}
+.subbtn{width:100%;background:var(--black);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation;margin-top:4px}
+.hitem2{border-left:3px solid var(--gold);padding:10px 12px;margin-bottom:10px;background:var(--offwht);border-radius:0 8px 8px 0}
+.hdate{font-size:11px;color:var(--grey);margin-bottom:4px}
+.hrow{font-size:12px;color:var(--grey);margin-top:3px}
+.card{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ctitle{font-size:13px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.ocard{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px}
+.extra-card{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.extra-title{font-size:14px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:8px}
+.extra-table{width:100%;border-collapse:collapse;font-size:13px}
+.extra-table tr{border-bottom:1px solid var(--lgrey)}
+.extra-table tr:last-child{border-bottom:none}
+.extra-table td{padding:9px 4px}
+.extra-table td:first-child{color:var(--grey);font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;width:40%;padding-right:8px}
+.extra-table td:last-child{color:var(--black);font-weight:600;font-size:14px}
+.otitle{font-size:14px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.oitem{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--lgrey);align-items:flex-start}
+.oitem:last-child{border-bottom:none}
+.odot{width:8px;height:8px;min-width:8px;background:var(--gold);border-radius:50%;margin-top:5px}
+.otxt{font-size:13px;line-height:1.5}
+.ctbl{width:100%;border-collapse:collapse;text-align:center;margin-top:10px}
+.ctbl th{background:var(--black);color:#fff;padding:8px;font-size:12px}
+.ctbl td{padding:10px;font-weight:700;font-size:15px;background:var(--offwht);border:1px solid var(--lgrey)}
+.ctbl td.a{background:var(--gold-light);color:var(--gold)}
+.ptbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.ptbl th{background:var(--black);color:#fff;padding:8px 10px;text-align:left}
+.ptbl td{padding:7px 10px;border-bottom:1px solid var(--lgrey)}
+.ptbl tr:nth-child(even) td{background:#F2F0EB}
+.ptbl tr.g td{background:var(--gold-light);color:var(--gold);font-weight:700}
+.ftr{text-align:center;padding:20px;color:var(--grey);font-size:11px;margin-top:6px}
+.series-blk{margin:10px 0}
+.serie-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--lgrey)}
+.serie-row:last-child{border-bottom:none}
+.serie-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.serie-lbl{display:block;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
+.serie-val{display:block;font-size:15px;font-weight:700;color:var(--black)}
+.serie-tip{display:block;font-size:11px;color:var(--grey);margin-top:2px}
+
+/* BOAS-VINDAS */
+.bv-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 20px 30px;overflow-y:auto}
+.bv-card{background:#1e1e1e;border:2px solid var(--gold);border-radius:20px;width:100%;max-width:420px;padding:28px 22px 24px;box-shadow:0 0 0 6px rgba(184,149,106,.1),0 8px 40px rgba(0,0,0,.6);position:relative;overflow:hidden}
+.bv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.bv-tag{display:inline-block;background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:18px;letter-spacing:1px}
+.bv-title{color:#fff;font-size:24px;font-weight:700;margin:0 0 8px;line-height:1.3;text-align:center}
+.bv-title span{color:var(--gold)}
+.bv-sub{color:#bbb;font-size:14px;line-height:1.6;margin:0 0 20px;text-align:center}
+.bv-video{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;margin-bottom:18px;border:1px solid rgba(184,149,106,.2)}
+.bv-video iframe{position:absolute;top:0;left:0;width:100%;height:100%}
+.bv-caption{color:#ccc;font-size:14px;line-height:1.6;text-align:center;margin:0}
+.bv-footer{width:100%;max-width:420px;margin-top:24px;padding:0 4px}
+.bv-btn{width:100%;padding:16px 20px;background:var(--gold);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:.3px;box-shadow:0 4px 16px rgba(184,149,106,.35);-webkit-tap-highlight-color:transparent}
+.bv-btn:active{opacity:.85}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Erlon Giovanini — Plano de Treino</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,Arial,sans-serif;background:#F2F0EB;color:#0D0D0D;font-size:15px}
+:root{--gold:#B8956A;--gold-light:#F5EDE0;--grey:#6B6B6B;--lgrey:#E8E6E1;--offwht:#FAFAF8;--black:#0D0D0D}
+.hdr{background:var(--black);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.hero-card{background:#1c1c1c;border:1px solid rgba(184,149,106,.35);border-radius:16px;padding:20px 16px 16px;margin:0 2px;box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 1px rgba(184,149,106,.1);position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hbrand{color:#fff;font-weight:700;font-size:15px}.hsub{color:var(--gold);font-size:11px}
+.hero{background:var(--black);padding:16px 16px 20px}
+.htag{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px}
+.hero h1{color:#fff;font-size:22px;font-weight:700}.hero h1 span{color:var(--gold)}
+.hinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.hitem{background:rgba(255,255,255,.07);border-radius:8px;padding:8px 12px}
+.hlbl{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.5px}.hval{color:#fff;font-size:13px;font-weight:600;margin-top:2px}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--lgrey);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;padding:13px 16px;font-size:13px;font-weight:700;color:var(--grey);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.main{max-width:680px;margin:0 auto;padding:14px}
+.pg{display:none}.pg.on{display:block}
+.loading{text-align:center;padding:40px;color:var(--grey);font-size:14px}
+/* ── BOTTOM NAV ─────────────────────────── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:1px solid var(--lgrey);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;color:var(--grey);font-size:10px;font-weight:600;gap:4px;border:none;background:none;-webkit-tap-highlight-color:transparent}
+.bnav-item svg{width:22px;height:22px;stroke:var(--grey);transition:stroke .15s}
+.bnav-item span{font-size:10px;font-weight:600;color:var(--grey);transition:color .15s}
+.bnav-item.on svg{stroke:var(--gold)}
+.bnav-item.on span{color:var(--gold)}
+.main{padding-bottom:80px}
+
+/* ── TREINO CAROUSEL ────────────────────── */
+.treino-carousel{display:flex;gap:14px;overflow-x:scroll;padding:16px 0 24px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center}
+.treino-carousel::-webkit-scrollbar{display:none}
+.treino-carousel::before,.treino-carousel::after{content:'';flex:0 0 calc(14% - 7px);min-width:calc(14% - 7px)}
+.treino-card{flex:0 0 72%;scroll-snap-align:center;border-radius:20px;overflow:hidden;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.18);transition:transform .3s ease,opacity .3s ease,box-shadow .3s ease;transform:scale(0.85);opacity:.6}
+.treino-card.active{transform:scale(1);opacity:1;box-shadow:0 10px 36px rgba(0,0,0,.32)}
+.tc-img{width:100%;height:420px;background-size:cover;background-position:center;position:relative}
+.tc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.05) 65%)}
+.tc-info{position:absolute;bottom:0;left:0;right:0;padding:16px 18px}
+.tc-badge{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;margin-bottom:6px;letter-spacing:.5px}
+.tc-name{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.3}
+.tc-count{font-size:12px;color:rgba(255,255,255,.8)}
+
+/* ── TREINO DETAIL ──────────────────────── */
+.td-header{display:flex;align-items:center;gap:12px;padding:16px 16px 14px;margin-bottom:14px;background:var(--gold);position:sticky;top:0;z-index:10;border-radius:0 0 14px 14px}
+.td-back{background:none;border:none;font-size:26px;color:#fff;font-weight:700;cursor:pointer;padding:4px 10px 4px 0;-webkit-tap-highlight-color:transparent;line-height:1}
+.td-back:active{opacity:.7}
+.td-badge{display:inline-block;background:#fff;color:var(--gold);font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;margin-bottom:5px;letter-spacing:.5px}
+.td-name{font-size:18px;font-weight:700;color:#fff;line-height:1.2}
+
+/* ── EXTRA CARD (cardio/abd) ────────────── */
+.collapsible-hdr{display:flex;justify-content:space-between;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.extra-arrow{font-size:16px;color:var(--gold);font-weight:700;transition:transform .2s}
+.extra-body{padding-top:8px}
+
+.crono-wrap{padding:16px 16px 8px;border-top:1px solid rgba(255,255,255,.1)}
+.crono-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px}
+.crono-row{display:flex;gap:6px;justify-content:space-between}
+.crono-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 6px;border-radius:10px;background:rgba(255,255,255,.07)}
+.crono-day.crono-active{background:rgba(184,149,106,.15)}
+.crono-day.crono-today{background:rgba(255,255,255,.12);box-shadow:0 0 0 1.5px rgba(255,255,255,.3)}
+.crono-day.crono-today-active{background:var(--gold);box-shadow:0 2px 10px rgba(184,149,106,.5)}
+.crono-dia{font-size:9px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px}
+.crono-day.crono-today .crono-dia,.crono-day.crono-today-active .crono-dia{color:rgba(255,255,255,.9)}
+.crono-day.crono-active .crono-dia{color:var(--gold)}
+.crono-num{font-size:15px;font-weight:800;color:rgba(255,255,255,.25)}
+.crono-day.crono-active .crono-num{color:var(--gold)}
+.crono-day.crono-today .crono-num{color:#fff}
+.crono-day.crono-today-active .crono-num{color:#fff;font-size:16px}
+.crono-dot{width:5px;height:5px;border-radius:50%;background:#fff;opacity:.8}
+.treino-toggle{cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center}
+.treino-toggle:active{opacity:.8}
+.treino-arrow{font-size:18px;color:var(--gold);font-weight:700;transition:transform .2s;flex-shrink:0}
+.treino-body{border:1px solid var(--lgrey);border-top:none;border-radius:0 0 10px 10px;overflow:hidden}
+.thead{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tbadge{background:var(--gold);color:#fff;font-weight:700;font-size:11px;padding:5px 12px;border-radius:6px;white-space:nowrap}
+.tname{font-size:16px;font-weight:700}
+.ecard{background:#fff;border-radius:10px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ehdr{padding:13px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ename{font-weight:700;font-size:14px}.emet{font-size:12px;color:var(--grey);margin-top:2px}
+.earr{color:var(--gold);font-size:20px;transition:transform .2s;line-height:1}
+.earr.open{transform:rotate(90deg)}
+.ebody{display:none;padding:0 14px 14px;border-top:1px solid var(--lgrey)}
+.ename-link{font-size:15px;font-weight:700;color:var(--gold);text-decoration:underline;text-underline-offset:3px;display:block}
+.ename-link:active{opacity:.7}.ebody.open{display:block}
+.chips{display:flex;gap:7px;margin:10px 0;flex-wrap:wrap}
+.chip{background:var(--offwht);border:1px solid var(--lgrey);border-radius:6px;padding:4px 10px;font-size:12px}
+.chip b{color:var(--gold)}
+.ytbtn{display:inline-flex;align-items:center;gap:6px;background:#FF0000;color:#fff;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:700;text-decoration:none;margin-top:4px}
+.ytbtn svg{width:14px;height:14px;fill:#fff;flex-shrink:0}
+.csec{margin-top:14px}
+.clbl-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:8px}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.citem{text-align:center}
+.cwk{font-size:10px;color:var(--grey);margin-bottom:4px;font-weight:700}
+.cinp{width:100%;text-align:center;border:1.5px solid var(--lgrey);border-radius:7px;padding:8px 4px;font-size:14px;font-weight:700;color:var(--black);background:var(--gold-light);-webkit-appearance:none;outline:none}
+.cinp:focus{border-color:var(--gold)}
+.sbtn{margin-top:12px;width:100%;background:var(--gold);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation}
+.saved{text-align:center;color:var(--gold);font-size:12px;margin-top:6px;font-weight:700;display:none}
+.fcard{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ftitle{font-size:14px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.fgrp{margin-bottom:14px}
+.flbl{font-size:12px;font-weight:700;color:var(--grey);margin-bottom:6px;display:block}
+.fsel,.ftxt,.finp{width:100%;border:1.5px solid var(--lgrey);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--black);background:var(--offwht);outline:none;font-family:-apple-system,Arial,sans-serif;-webkit-appearance:none}
+.ftxt{min-height:80px;resize:vertical}
+.fsel:focus,.ftxt:focus,.finp:focus{border-color:var(--gold)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.plbl{font-size:10px;font-weight:700;color:var(--grey);margin-bottom:4px}
+.sem6{display:none;background:#FFF8E1;border-left:4px solid #F0A500;border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#7A5200;line-height:1.5}
+.subbtn{width:100%;background:var(--black);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation;margin-top:4px}
+.hitem2{border-left:3px solid var(--gold);padding:10px 12px;margin-bottom:10px;background:var(--offwht);border-radius:0 8px 8px 0}
+.hdate{font-size:11px;color:var(--grey);margin-bottom:4px}
+.hrow{font-size:12px;color:var(--grey);margin-top:3px}
+.card{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ctitle{font-size:13px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.ocard{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px}
+.extra-card{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.extra-title{font-size:14px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:8px}
+.extra-table{width:100%;border-collapse:collapse;font-size:13px}
+.extra-table tr{border-bottom:1px solid var(--lgrey)}
+.extra-table tr:last-child{border-bottom:none}
+.extra-table td{padding:9px 4px}
+.extra-table td:first-child{color:var(--grey);font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;width:40%;padding-right:8px}
+.extra-table td:last-child{color:var(--black);font-weight:600;font-size:14px}
+.otitle{font-size:14px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.oitem{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--lgrey);align-items:flex-start}
+.oitem:last-child{border-bottom:none}
+.odot{width:8px;height:8px;min-width:8px;background:var(--gold);border-radius:50%;margin-top:5px}
+.otxt{font-size:13px;line-height:1.5}
+.ctbl{width:100%;border-collapse:collapse;text-align:center;margin-top:10px}
+.ctbl th{background:var(--black);color:#fff;padding:8px;font-size:12px}
+.ctbl td{padding:10px;font-weight:700;font-size:15px;background:var(--offwht);border:1px solid var(--lgrey)}
+.ctbl td.a{background:var(--gold-light);color:var(--gold)}
+.ptbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.ptbl th{background:var(--black);color:#fff;padding:8px 10px;text-align:left}
+.ptbl td{padding:7px 10px;border-bottom:1px solid var(--lgrey)}
+.ptbl tr:nth-child(even) td{background:#F2F0EB}
+.ptbl tr.g td{background:var(--gold-light);color:var(--gold);font-weight:700}
+.ftr{text-align:center;padding:20px;color:var(--grey);font-size:11px;margin-top:6px}
+.series-blk{margin:10px 0}
+.serie-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--lgrey)}
+.serie-row:last-child{border-bottom:none}
+.serie-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.serie-lbl{display:block;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
+.serie-val{display:block;font-size:15px;font-weight:700;color:var(--black)}
+.serie-tip{display:block;font-size:11px;color:var(--grey);margin-top:2px}
+
+/* BOAS-VINDAS */
+.bv-overlay{position:fixed;inset:0;background:#F2F0EB;z-index:9999;overflow-y:auto;padding-bottom:100px}
+.bv-hero{background:var(--black);padding:28px 20px 24px;border-bottom:3px solid var(--gold);margin-bottom:0}
+.bv-tag{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:1px}
+.bv-hero h1{color:#fff;font-size:22px;font-weight:700}
+.bv-hero h1 span{color:var(--gold)}
+.bv-hero p{color:#aaa;font-size:13px;margin-top:6px}
+.bv-content{max-width:680px;margin:0 auto;padding:16px}
+.bv-section{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.bv-title{font-size:14px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.bv-item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--lgrey);align-items:flex-start}
+.bv-item:last-child{border-bottom:none}
+.bv-dot{width:8px;height:8px;min-width:8px;background:var(--gold);border-radius:50%;margin-top:5px}
+.bv-txt{font-size:13px;line-height:1.5}
+.bv-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--lgrey);padding:14px 20px;z-index:10000}
+.bv-btn{width:100%;background:var(--black);color:#fff;border:none;border-radius:10px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;touch-action:manipulation;display:flex;align-items:center;justify-content:center;gap:8px}
+.bv-btn:hover{opacity:.85}
+.ptbl2{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.ptbl2 th{background:var(--gold);color:#fff;padding:8px 10px;text-align:left;font-size:12px}
+.ptbl2 td{padding:8px 10px;border-bottom:1px solid var(--lgrey);font-size:13px}
+.ptbl2 tr:nth-child(even) td{background:var(--offwht)}
+.info-btn{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--lgrey);background:none;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--grey);cursor:pointer;flex-shrink:0;font-family:-apple-system,Arial,sans-serif;line-height:1;-webkit-tap-highlight-color:transparent}
+.info-btn:hover{border-color:var(--gold);color:var(--gold)}
+.info-tooltip{display:none;background:#0D0D0D;color:#fff;font-size:12px;border-radius:8px;padding:8px 12px;margin-top:6px;line-height:1.5;font-style:italic}
+.info-tooltip.on{display:block}
+.erro{text-align:center;padding:40px 20px}
+.erro h2{color:#e74c3c;margin-bottom:10px}.erro p{color:var(--grey);font-size:13px}
+
+.ico{width:15px;height:15px;display:inline-block;vertical-align:middle;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-right:4px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div><div class="hbrand">ERLON GIOVANINI</div><div class="hsub">Personal Trainer · CREF 028410 G/PR</div></div>
+  <div style="color:var(--gold);font-size:11px">@erlongiovanini</div>
+</div>
+
+<div id="hero-wrap"></div>
+
+<div class="bottom-nav" id="tabs-wrap" style="display:none">
+  <div class="bnav-item on" onclick="showTab('treinos',this)" ontouchstart="">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v16M18 4v16M6 8h12M6 16h12"/></svg>
+    <span>Treinos</span>
+  </div>
+  <div class="bnav-item" onclick="showTab('feedback',this)" ontouchstart="">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+    <span>Feedback</span>
+  </div>
+  <div class="bnav-item" onclick="showTab('historico',this)" ontouchstart="">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/></svg>
+    <span>Histórico</span>
+  </div>
+  <div class="bnav-item" onclick="showTab('orientacoes',this)" ontouchstart="">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <span>Orientações</span>
+  </div>
+</div>
+
+<div class="main" id="main-wrap">
+  <div class="loading">⏳ Carregando seu treino...</div>
+</div>
+
+<div class="ftr">
+  Erlon Giovanini · CREF 028410 G/PR · (43) 99900-8064<br>
+  <span style="color:var(--gold)">@erlongiovanini</span>
+</div>
+
+<!-- BOAS-VINDAS OVERLAY -->
+<div class="bv-overlay"<div id="bv-overlay" style="display:none">
+  <div class="bv-card" id="bv-content"></div>
+  <div class="bv-footer">
+    <button class="bv-btn" onclick="fecharBoasVindas()" ontouchstart="">Entendi, vamos treinar!</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE COMPAT -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<script>
+// ── FIREBASE ──────────────────────────────────────
+firebase.initializeApp({
+  apiKey: "AIzaSyAoPUBPNSPPzd67L0FQDBHtUe4CoxTzkaA",
+  authDomain: "erlon-consultoria.firebaseapp.com",
+  projectId: "erlon-consultoria",
+  storageBucket: "erlon-consultoria.firebasestorage.app",
+  messagingSenderId: "8286279189",
+  appId: "1:8286279189:web:c8255d120df62613e8e01c"
+});
+var db = firebase.firestore();
+
+// ── STATE ─────────────────────────────────────────
+var aluna = null;
+var cargas = {};
+var videosDB = {};
+var alunaId = new URLSearchParams(location.search).get('id');
+
+// ── UTILS ─────────────────────────────────────────
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise(function(_, reject) { setTimeout(function(){ reject(new Error('timeout')); }, ms); })
+  ]);
+}
+
+function mostrarErro(titulo, msg) {
+  document.getElementById('main-wrap').innerHTML = '<div class="erro"><h2><svg class="ico" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ' + titulo + '</h2><p>' + msg + '</p></div>';
+}
+
+function toast(msg) {
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(function(){ t.style.display='none'; }, 3000);
+}
+
+function normVideo(nome) {
+  return nome.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[°º]/g,'')
+    .replace(/[^a-z0-9\s]/g,'')
+    .replace(/\s+/g,'-')
+    .replace(/-+/g,'-')
+    .trim();
+}
+
+
+var PLAYLISTS = {
+  'gluteos': 'https://www.youtube.com/playlist?list=PLuazLsK89zdYx2rDf8oLc5WY4JXZo9M7z',
+  'quadriceps': 'https://www.youtube.com/playlist?list=PLuazLsK89zdZwLk8xRCXAxeZq8EQScUcM',
+  'posteriores': 'https://www.youtube.com/playlist?list=PLuazLsK89zdbkJBFV06d-ylMSBj81j5jA',
+  'costas': 'https://www.youtube.com/playlist?list=PLuazLsK89zdalgGytBUQBUE1v5HR3DW3R',
+  'ombros': 'https://www.youtube.com/playlist?list=PLuazLsK89zdarYlIe-9T_ezpxu6v1kNyS',
+  'peitoral': 'https://www.youtube.com/playlist?list=PLuazLsK89zdYen8GXbe4SfgafT82VdjLh',
+  'biceps': 'https://www.youtube.com/playlist?list=PLuazLsK89zdbScGdFBJYnS8ic7Dd2rR55',
+  'triceps': 'https://www.youtube.com/playlist?list=PLuazLsK89zdbScGdFBJYnS8ic7Dd2rR55',
+  'abdomen': 'https://www.youtube.com/playlist?list=PLuazLsK89zdbYc3MgLXoIYQW2vziJarlS'
+};
+
+var KEYWORDS = [
+  ['pelvica','gluteos'],['gluteo','gluteos'],['abducao','gluteos'],
+  ['abdutora','gluteos'],['adutora','gluteos'],['coice','gluteos'],
+  ['step up','gluteos'],['extensao de quadril','gluteos'],
+  ['terra sumo','gluteos'],['bulgaro','gluteos'],
+  ['agachamento','quadriceps'],['leg press','quadriceps'],
+  ['extensora','quadriceps'],['hack','quadriceps'],
+  ['afundo','quadriceps'],['passada','quadriceps'],['pendulo','quadriceps'],
+  ['panturrilha','quadriceps'],['goblet','quadriceps'],
+  ['stiff','posteriores'],['mesa flexora','posteriores'],
+  ['nordico','posteriores'],['flexor em pe','posteriores'],
+  ['remada','costas'],['puxada','costas'],['pulldown','costas'],['lowrow','costas'],
+  ['desenvolvimento','ombros'],['elevacao lateral','ombros'],
+  ['elevacao frontal','ombros'],['crucifixo inverso','ombros'],['facepull','ombros'],
+  ['supino','peitoral'],['crucifixo','peitoral'],['cross over','peitoral'],
+  ['flexao','peitoral'],['paralelas','peitoral'],
+  ['rosca','biceps'],
+  ['triceps','triceps'],['pulley','triceps'],['testa','triceps'],['frances','triceps'],
+  ['abdominal','abdomen'],['crunch','abdomen'],['prancha','abdomen']
+];
+
+function getPlaylist(nome) {
+  var n = normVideo(nome).replace(/-/g,' ');
+  for (var i = 0; i < KEYWORDS.length; i++) {
+    if (n.indexOf(KEYWORDS[i][0]) >= 0) {
+      return PLAYLISTS[KEYWORDS[i][1]] || null;
+    }
+  }
+  return null;
+}
+
+function findVideo(nome) {
+  if (!nome) return null;
+  var key = normVideo(nome);
+  if (videosDB[key]) return videosDB[key];
+  // Try partial match
+  var keys = Object.keys(videosDB);
+  for (var i = 0; i < keys.length; i++) {
+    if (keys[i].startsWith(key) || key.startsWith(keys[i])) return videosDB[keys[i]];
+  }
+  // Try word-by-word match
+  var words = key.split('-').filter(function(w){ return w.length > 3; });
+  for (var j = 0; j < keys.length; j++) {
+    var match = words.every(function(w){ return keys[j].includes(w); });
+    if (match) return videosDB[keys[j]];
+  }
+  return null;
+}
+
+function toggleTreino(tid, hdr) {
+  var body = document.getElementById(tid);
+  if (!body) return;
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  var arr = hdr ? hdr.querySelector('.treino-arrow') : null;
+  if (arr) arr.style.transform = isOpen ? '' : 'rotate(90deg)';
+  if (hdr) hdr.style.borderRadius = isOpen ? '10px' : '10px 10px 0 0';
+}
+
+var infoTimer = null;
+
+function closeAllTooltips() {
+  var all = document.querySelectorAll('.info-tooltip.on');
+  for (var ii = 0; ii < all.length; ii++) {
+    all[ii].classList.remove('on');
+  }
+  var allBtns = document.querySelectorAll('.info-btn');
+  for (var ib = 0; ib < allBtns.length; ib++) {
+    allBtns[ib].style.borderColor = '';
+    allBtns[ib].style.color = '';
+  }
+}
+
+function toggleInfo(btn) {
+  var tid = btn.getAttribute('data-tid');
+  if (!tid) return;
+  var tooltip = document.getElementById(tid);
+  if (!tooltip) return;
+  var isOn = tooltip.classList.contains('on');
+  // Close all tooltips first
+  closeAllTooltips();
+  if (infoTimer) { clearTimeout(infoTimer); infoTimer = null; }
+  // If was closed, open it
+  if (!isOn) {
+    tooltip.classList.add('on');
+    btn.style.borderColor = 'var(--gold)';
+    btn.style.color = 'var(--gold)';
+    // Auto-close after 4 seconds
+    infoTimer = setTimeout(function() {
+      closeAllTooltips();
+      infoTimer = null;
+    }, 4000);
+  }
+}
+
+window.tog = function(eid) {
+  var body = document.getElementById(eid);
+  var arr = document.getElementById('arr-' + eid);
+  if (!body) return;
+  var isOpen = body.classList.contains('open');
+  // Accordion: close all other open exercise bodies
+  if (!isOpen) {
+    var allBodies = document.querySelectorAll('.ebody.open');
+    for (var bi = 0; bi < allBodies.length; bi++) {
+      var otherId = allBodies[bi].id;
+      allBodies[bi].className = 'ebody';
+      var otherArr = document.getElementById('arr-' + otherId);
+      if (otherArr) otherArr.style.transform = '';
+    }
+  }
+  body.className = isOpen ? 'ebody' : 'ebody open';
+  if (arr) arr.style.transform = isOpen ? '' : 'rotate(90deg)';
+}
+
+window.uC = function(inp) {
+  var k = inp.getAttribute('data-key');
+  var ix = parseInt(inp.getAttribute('data-idx'));
+  if (!cargas[k]) cargas[k] = ['','','','','',''];
+  cargas[k][ix] = inp.value;
+}
+
+window.sC = function(btn) {
+  var k = btn.getAttribute('data-key');
+  db.collection('alunas').doc(alunaId).update({ ['cargas.'+k]: cargas[k] })
+    .then(function() {
+      var sv = document.getElementById('sv-'+k);
+      if (sv) { sv.style.display='block'; setTimeout(function(){sv.style.display='none';},2000); }
+    }).catch(function(){ alert('Erro ao salvar.'); });
+}
+
+window.showTab = function(id, el) {
+  var pgs = document.querySelectorAll('.pg');
+  for (var pi=0;pi<pgs.length;pi++) pgs[pi].className='pg';
+  var navs = document.querySelectorAll('.bnav-item');
+  for (var ni=0;ni<navs.length;ni++) navs[ni].className='bnav-item';
+  var pg = document.getElementById('pg-'+id);
+  if (pg) pg.className='pg on';
+  if (el) el.className='bnav-item on';
+}
+
+function renderPSE(val) {
+  var alvo = parseInt(val)||0;
+  var rows = [[1,'Muito leve','#e0f7e9'],[2,'Leve','#c8f0d4'],[3,'Moderado','#fff3cd'],
+    [4,'Um pouco difícil','#ffe0a3'],[5,'Difícil','#ffd080'],[6,'Mais difícil','#ffb347'],
+    [7,'Muito difícil','#ff8c42'],[8,'Extremamente difícil','#ff6b35'],
+    [9,'Quase máximo','#e63946'],[10,'Máximo','#c1121f']];
+  var html='<div class="serie-lbl" style="margin-bottom:6px">PSE — Percepção Subjetiva de Esforço</div><div style="display:flex;flex-direction:column;gap:3px">';
+  for (var ri=0;ri<rows.length;ri++){
+    var num=rows[ri][0];var label=rows[ri][1];var bg=rows[ri][2];var ativo=num===alvo;
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:6px;background:'+(ativo?bg:'transparent')+';font-weight:'+(ativo?'700':'400')+'">'
+      +'<span style="width:22px;text-align:center;font-weight:700">'+num+'</span>'
+      +'<span>'+label+(ativo?' ★':'')+'</span></div>';
+  }
+  return html+'</div>';
+}
+
+function renderCardio(cardio) {
+  if (!cardio || !cardio.freq) return '';
+  return '<div class="ocard">'
+    + '<div class="otitle"><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 17l3-9h8l2 4h-5l-2-4"/><path d="M12 17l2-4"/></svg> Cardio Semanal</div>'
+    + '<table class="ptbl2">'
+    + '<tr><th>Frequência</th><th>Duração</th><th>Intensidade</th><th>Modalidade</th></tr>'
+    + '<tr><td>' + (cardio.freq||'—') + '</td><td>' + (cardio.dur||'—') + '</td><td>PSE ' + (cardio.pse||'—') + '</td><td>' + (cardio.mod||'—') + '</td></tr>'
+    + '</table>'
+    + (cardio.obs ? '<div style="margin-top:8px;font-size:12px;color:var(--grey)"><svg class="ico" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ' + cardio.obs + '</div>' : '')
+    + '</div>';
+}
+
+function renderAbd(abd) {
+  if (!abd || !abd.ex) return '';
+  return '<div class="ocard">'
+    + '<div class="otitle"><svg class="ico" viewBox="0 0 24 24"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><path d="M6 4h12"/></svg> Rotina de Abdômen</div>'
+    + '<table class="ptbl2">'
+    + '<tr><th>Frequência</th><th>Exercício</th><th>Séries</th><th>Repetições</th></tr>'
+    + '<tr><td>' + (abd.freq||'—') + '</td><td>' + (abd.ex||'—') + '</td><td>' + (abd.series||'—') + '</td><td>' + (abd.reps||'—') + '</td></tr>'
+    + '</table>'
+    + (abd.obs && abd.obs !== '—' ? '<div style="margin-top:8px;font-size:12px;color:var(--grey)"><svg class="ico" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ' + abd.obs + '</div>' : '')
+    + '</div>';
+}
+
+function renderCardioAbd() {
+  var container=document.getElementById('cardio-abd-container');
+  if(!container) return;
+  var html='';
+  if(aluna.cardio&&(aluna.cardio.freq||aluna.cardio.dur)){
+    html+='<div class="extra-card">'
+      +'<div class="extra-title collapsible-hdr" onclick="toggleExtra(this)" ontouchstart="">'
+      +'<span><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 17l3-9h8l2 4h-5l-2-4"/><path d="M12 17l2-4"/></svg> Cardio Semanal</span><span class="extra-arrow">›</span></div>'
+      +'<div class="extra-body" style="display:none"><div class="extra-table">';
+    if(aluna.cardio.freq) html+='<div class="ctitle">Frequência</div><div>'+aluna.cardio.freq+'</div>';
+    if(aluna.cardio.dur)  html+='<div class="ctitle">Duração</div><div>'+aluna.cardio.dur+'</div>';
+    if(aluna.cardio.pse)  html+='<div class="ctitle">PSE</div><div>'+aluna.cardio.pse+'</div>';
+    if(aluna.cardio.mod)  html+='<div class="ctitle">Modalidade</div><div>'+aluna.cardio.mod+'</div>';
+    if(aluna.cardio.obs)  html+='<div class="ctitle">Obs.</div><div>'+aluna.cardio.obs+'</div>';
+    html+='</div></div></div>';
+  }
+  if(aluna.abd&&(aluna.abd.freq||aluna.abd.ex)){
+    html+='<div class="extra-card">'
+      +'<div class="extra-title collapsible-hdr" onclick="toggleExtra(this)" ontouchstart="">'
+      +'<span><svg class="ico" viewBox="0 0 24 24"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><path d="M6 4h12"/></svg> Rotina de Abdômen</span><span class="extra-arrow">›</span></div>'
+      +'<div class="extra-body" style="display:none"><div class="extra-table">';
+    if(aluna.abd.freq)   html+='<div class="ctitle">Frequência</div><div>'+aluna.abd.freq+'</div>';
+    if(aluna.abd.ex)     html+='<div class="ctitle">Exercício</div><div>'+aluna.abd.ex+'</div>';
+    if(aluna.abd.series) html+='<div class="ctitle">Séries</div><div>'+aluna.abd.series+'</div>';
+    if(aluna.abd.reps)   html+='<div class="ctitle">Reps</div><div>'+aluna.abd.reps+'</div>';
+    if(aluna.abd.obs)    html+='<div class="ctitle">Obs.</div><div>'+aluna.abd.obs+'</div>';
+    html+='</div></div></div>';
+  }
+  container.innerHTML=html;
+}
+
+function toggleExtra(hdr) {
+  var body = hdr.nextElementSibling;
+  if(!body) return;
+  var isOpen = body.style.display !== 'none';
+  // Close all other extra cards first (accordion)
+  if (!isOpen) {
+    var allHdrs = document.querySelectorAll('.collapsible-hdr');
+    for (var ai = 0; ai < allHdrs.length; ai++) {
+      if (allHdrs[ai] !== hdr) {
+        var otherBody = allHdrs[ai].nextElementSibling;
+        if (otherBody) otherBody.style.display = 'none';
+        var otherArr = allHdrs[ai].querySelector('.extra-arrow');
+        if (otherArr) otherArr.style.transform = '';
+      }
+    }
+  }
+  body.style.display = isOpen ? 'none' : 'block';
+  var arr = hdr.querySelector('.extra-arrow');
+  if(arr) arr.style.transform = isOpen ? '' : 'rotate(90deg)';
+}
+
+function renderTreinos() {
+  var container=document.getElementById('treinos-container');
+  container.innerHTML='';
+  var treinos=aluna.treinos||[];
+  if(!treinos.length){
+    container.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--grey)"><div style="font-size:36px;margin-bottom:12px"><svg class="ico" viewBox="0 0 24 24"><path d="M6 4v16M18 4v16M6 8h12M6 16h12"/></svg></div><div style="font-size:15px;font-weight:700;color:var(--black);margin-bottom:6px">Treino ainda não cadastrado</div><div style="font-size:13px">Entre em contato com seu treinador.</div><a href="https://wa.me/5543999008064" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;background:#25D366;color:#fff;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;text-decoration:none"><svg class="ico" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Chamar no WhatsApp</a></div>';
+    return;
+  }
+
+  // ── CAROUSEL ──
+  var imgs = [
+    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80',
+    'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80',
+    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80',
+    'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80',
+    'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80'
+  ];
+
+  var carousel = document.createElement('div');
+  carousel.className = 'treino-carousel';
+
+  for(var ci=0; ci<treinos.length; ci++){
+    var t = treinos[ci];
+    if(!t) continue;
+    var exCount = t.exercicios ? t.exercicios.length : 0;
+    var img = imgs[ci % imgs.length];
+    var card = document.createElement('div');
+    card.className = 'treino-card';
+    card.setAttribute('data-treino-idx', ci);
+    card.innerHTML =
+      '<div class="tc-img" style="background-image:url('+img+')">'
+      + '<div class="tc-overlay"></div>'
+      + '<div class="tc-info">'
+      + '<div class="tc-badge">TREINO '+(t.num||ci+1)+'</div>'
+      + '<div class="tc-name">'+(t.nome||'Treino '+(ci+1))+'</div>'
+      + '<div class="tc-count">'+exCount+' exercício'+(exCount!==1?'s':'')+'</div>'
+      + '</div>'
+      + '</div>';
+    card.onclick = (function(idx){ return function(){ abrirTreino(idx); }; })(ci);
+    carousel.appendChild(card);
+  }
+  container.appendChild(carousel);
+
+  // Init scale effect after DOM is ready
+  setTimeout(initCarouselScale, 50);
+
+  // ── DETAIL PANELS (hidden) ──
+  var detail = document.createElement('div');
+  detail.id = 'treino-detail';
+  detail.style.display = 'none';
+  container.appendChild(detail);
+}
+
+function abrirTreino(tIdx) {
+  var treinos = aluna.treinos || [];
+  var t = treinos[tIdx];
+  if(!t) return;
+
+  var detail = document.getElementById('treino-detail');
+  var carousel = document.querySelector('.treino-carousel');
+  if(!detail || !carousel) return;
+
+  // Hide carousel, show detail
+  carousel.style.display = 'none';
+  detail.style.display = 'block';
+  // Hide cardio/abd section
+  var cardioAbd = document.getElementById('cardio-abd-container');
+  if (cardioAbd) cardioAbd.style.display = 'none';
+
+  var html = '<div class="td-header">'
+    + '<button class="td-back" onclick="fecharTreino()" ontouchstart="">‹</button>'
+    + '<div style="flex:1">'
+    + '<div class="td-badge">TREINO '+(t.num||tIdx+1)+'</div>'
+    + '<div class="td-name">'+(t.nome||'')+'</div>'
+    + '</div>'
+    + '</div>';
+
+  var exercicios = t.exercicios || [];
+  for(var ei=0; ei<exercicios.length; ei++){
+    var ex = exercicios[ei];
+    if(!ex||!ex.nome) continue;
+    var key = 't'+t.num+'_e'+ei;
+    var saved = cargas[key]||['','','','','',''];
+    var eid = 'e_'+t.num+'_'+ei;
+    var semanas = '';
+    for(var s=1;s<=6;s++){
+      semanas+='<div class="citem"><div class="cwk">SEM '+s+'</div>'
+        +'<input class="cinp" type="text" inputmode="decimal" placeholder="—" value="'+(saved[s-1]||'')+'"'
+        +' data-key="'+key+'" data-idx="'+(s-1)+'" oninput="uC(this)"></div>';
+    }
+    var videoUrl=findVideo(ex.nome||'')||getPlaylist(ex.nome||'')||'';
+    var playlistUrl=getPlaylist(ex.nome||'')||ex.yt||'';
+    var ytBtn=playlistUrl?'<a class="ytbtn" href="'+playlistUrl+'" target="_blank"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/></svg>Ver playlist</a>':'';
+    var nomeHTML=videoUrl?'<a class="ename-link" href="'+videoUrl+'" target="_blank" onclick="event.stopPropagation()">'+ex.nome+' <span style="font-size:11px;opacity:.7">▶</span></a>':'<span class="ename">'+ex.nome+'</span>';
+    html+='<div class="ecard">'
+      +'<div class="ehdr" data-eid="'+eid+'" ontouchstart=""><div>'+nomeHTML+'<div class="emet">'+(ex.metodo||'')+'</div></div><div class="earr" id="arr-'+eid+'">›</div></div>'
+      +'<div class="ebody" id="'+eid+'">'
+      +'<div class="chips">'+(ex.cad&&ex.cad!=='—'?'<div class="chip"><b>CAD.</b> '+ex.cad+'</div>':'')+'</div>'
+      +(ex.aquec&&ex.aquec!=='—'?'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--lgrey)"><span><svg class="ico" viewBox="0 0 24 24"><path d="M12 2c0 6-8 8-8 14a8 8 0 0 0 16 0c0-6-8-8-8-14z"/><path d="M12 2c0 4 4 6 4 10"/></svg></span><div style="flex:1"><div style="font-size:10px;font-weight:700;color:var(--grey)">AQUECIMENTO</div><div style="font-size:14px;font-weight:700">'+ex.aquec+'</div></div><button class="info-btn" data-tid="tt-aq-'+eid+'" onclick="toggleInfo(this)">i</button></div><div class="info-tooltip" id="tt-aq-'+eid+'">Série leve, longe da falha. Prepara as articulações e ativa o músculo.</div>':'')
+      +(ex.reconhec&&ex.reconhec!=='—'?'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--lgrey)"><span><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><div style="flex:1"><div style="font-size:10px;font-weight:700;color:var(--grey)">RECONHECIMENTO</div><div style="font-size:14px;font-weight:700">'+ex.reconhec+'</div></div><button class="info-btn" data-tid="tt-rk-'+eid+'" onclick="toggleInfo(this)">i</button></div><div class="info-tooltip" id="tt-rk-'+eid+'">Encontre a carga para o trabalho. Deve ser desafiadora mas não máxima.</div>':'')
+      +(ex.series&&ex.series!=='—'?'<div style="display:flex;align-items:center;gap:8px;padding:7px 0'+(ex.backoff?';border-bottom:1px solid var(--lgrey)':'')+'"><span><svg class="ico" viewBox="0 0 24 24"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><path d="M6 4h12"/></svg></span><div style="flex:1"><div style="font-size:10px;font-weight:700;color:var(--gold)">TRABALHO</div><div style="font-size:14px;font-weight:700;color:var(--gold)">'+ex.series+'</div></div><button class="info-btn" data-tid="tt-wk-'+eid+'" onclick="toggleInfo(this)">i</button></div><div class="info-tooltip" id="tt-wk-'+eid+'">Séries principais — vá até a falha concêntrica.</div>':'')
+      +(ex.backoff&&ex.backoff!=='—'?'<div style="display:flex;align-items:center;gap:8px;padding:7px 0"><span><svg class="ico" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span><div style="flex:1"><div style="font-size:10px;font-weight:700;color:var(--grey)">BACK OFF SET</div><div style="font-size:14px;font-weight:700">'+ex.backoff+'</div></div></div>':'')
+      +ytBtn
+      +'<div class="csec"><div class="clbl-title">REGISTRO DE CARGA</div><div class="cgrid">'+semanas+'</div>'
+      +'<button class="sbtn" data-key="'+key+'" onclick="sC(this)" ontouchstart="">Salvar cargas <svg class="ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></button>'
+      +'<div class="saved" id="sv-'+key+'"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvo!</div></div></div></div>';
+  }
+  detail.innerHTML = html;
+}
+
+function fecharTreino() {
+  var detail = document.getElementById('treino-detail');
+  var carousel = document.querySelector('.treino-carousel');
+  var cardioAbd = document.getElementById('cardio-abd-container');
+  if(detail) detail.style.display = 'none';
+  if(carousel) {
+    carousel.style.display = 'flex';
+    setTimeout(initCarouselScale, 50);
+  }
+  if(cardioAbd) cardioAbd.style.display = '';
+}
+
+function renderFeedbackForm() {
+  var semOpts = '<option value="">Selecione...</option>';
+  for (var s=1;s<=6;s++) semOpts += '<option value="'+s+'">Semana '+s+'</option>';
+  var html = '<div class="fcard">';
+  html += '<div class="ftitle"><svg class="ico" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg> Feedback Semanal</div>';
+  html += '<div class="sem6" id="alerta6"><svg class="ico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> <strong>Você está na semana 6!</strong> Não esqueça de enviar as fotos de avaliação para o Erlon via WhatsApp junto com este feedback.</div>';
+  html += '<div class="fgrp"><label class="flbl"> Qual semana da planilha você está?</label><select class="fsel" id="f-sem" onchange="chkSem()">'+semOpts+'</select></div>';
+  html += '<div class="fgrp"><label class="flbl"> Quantos treinos fez essa semana?</label>';
+  html += '<select class="fsel" id="f-treinos"><option value="">Selecione...</option>';
+  for (var t=0;t<=6;t++) html += '<option value="'+t+'">'+t+' treino'+(t!==1?'s':'')+' </option>';
+  html += '</select></div>';
+  html += '<div class="fgrp"><label class="flbl"> Seu peso hoje (kg)</label>';
+  html += '<input class="finp" id="f-peso-hoje" type="number" step="0.1" placeholder="Ex: 65.5" inputmode="decimal"></div>';
+  html += '<div class="fgrp"><label class="flbl"> Como foi sua dieta?</label>';
+  html += '<select class="fsel" id="f-dieta"><option value="">Selecione...</option><option>Ótima</option><option>Boa</option><option>Regular</option><option>Ruim</option></select></div>';
+  html += '<div class="fgrp"><label class="flbl"> Ingestão de água diária?</label>';
+  html += '<select class="fsel" id="f-agua"><option value="">Selecione...</option><option>Acima de 2L</option><option>Entre 1,5L e 2L</option><option>Menos de 1,5L</option></select></div>';
+  html += '<div class="fgrp"><label class="flbl"> Como foi seu sono?</label>';
+  html += '<select class="fsel" id="f-sono"><option value="">Selecione...</option><option>Ótimo (+8h)</option><option>Bom (6-8h)</option><option>Regular (5-6h)</option><option>Ruim (-5h)</option></select></div>';
+  html += '<div class="fgrp" style="background:#f0faf4;border:1px solid #25D366;border-radius:10px;padding:14px;text-align:center">';
+  html += '<div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">Dúvidas, queixas ou dificuldades no treino?</div>';
+  html += '<div style="font-size:12px;color:#666;margin-bottom:12px">Fale diretamente com seu treinador pelo WhatsApp</div>';
+  html += '<a href="https://wa.me/5543999008064" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;text-decoration:none"><svg class="ico" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Chamar no WhatsApp</a></div>';
+  html += '<button class="subbtn" onclick="enviarFeedback()" ontouchstart="">Enviar Feedback <svg class="ico" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>';
+  html += '</div>';
+  return html;
+}
+
+function renderOrientacoes() {
+  var crono = aluna.crono || ['—','—','—','—','—','—','—'];
+  var cronoA = aluna.cronoA || [false,false,false,false,false,false,false];
+  var dias = ['SEG','TER','QUA','QUIN','SEX','SÁB','DOM'];
+  var html = '<div class="ocard" style="padding:0;overflow:hidden">';
+  html += '<div style="position:relative;padding-bottom:56.25%;height:0"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%" src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+  html += '<div style="padding:14px"><div class="otitle" style="margin-top:0"><svg class="ico" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Como usar sua planilha</div></div></div>';
+  html += '<div class="ocard"><div class="otitle"><svg class="ico" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg> Orientações do Treino</div>';
+  html += '<div class="oitem"><div class="odot"></div><div class="otxt">Siga rigorosamente o cronograma semanal proposto.</div></div>';
+  html += '<div class="oitem"><div class="odot"></div><div class="otxt">Execute os exercícios na ordem em que aparecem na prescrição.</div></div>';
+  html += '<div class="oitem"><div class="odot"></div><div class="otxt">Dúvidas serão respondidas via WhatsApp.</div></div>';
+  html += '<div class="oitem"><div class="odot"></div><div class="otxt">Registre suas cargas — fundamental para sua progressão!</div></div>';
+  html += '<div class="oitem"><div class="odot"></div><div class="otxt">Mantenha a rotina de alongamentos.</div></div>';
+  html += '</div>';
+  html += '<div class="ocard"><div class="otitle"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Cronograma Semanal</div><table class="ctbl"><tr>';
+  for (var di = 0; di < dias.length; di++) { html += '<th>' + dias[di] + '</th>'; }
+  html += '</tr><tr>';
+  for (var ci = 0; ci < crono.length; ci++) { html += '<td class="' + (cronoA[ci] ? 'a' : '') + '">' + crono[ci] + '</td>'; }
+  html += '</tr></table></div>';
+  html += '<div class="ocard"><div class="otitle"><svg class="ico" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Escala PSE</div><table class="ptbl">';
+  html += '<tr><th>Nível</th><th>Esforço</th><th>Sinais</th></tr>';
+  html += '<tr><td>0–2</td><td>Mínimo</td><td>Sensação de movimento</td></tr>';
+  html += '<tr><td>3–4</td><td>Moderado</td><td>Calor</td></tr>';
+  html += '<tr><td>5</td><td>Difícil</td><td>Começa a suar</td></tr>';
+  html += '<tr class="g"><td>6 ★</td><td>Mais difícil</td><td>Moderada sudorese — USE AQUI</td></tr>';
+  html += '<tr><td>7–8</td><td>Muito difícil</td><td>Sudorese intensa</td></tr>';
+  html += '<tr><td>9–10</td><td>Máximo</td><td>Exaustão</td></tr>';
+  html += '</table></div>';
+  return html;
+}
+
+function renderHist() {
+  var el = document.getElementById('hist-lista');
+  if (!el) return;
+  var fbs = aluna.feedbacks || [];
+  if (!fbs.length) { el.textContent = 'Nenhum feedback ainda.'; return; }
+  var html = '';
+  for (var fi = fbs.length - 1; fi >= 0; fi--) {
+    var fb = fbs[fi];
+    html += '<div style="border:1px solid var(--lgrey);border-radius:8px;padding:12px;margin-bottom:10px">';
+    html += '<div style="font-weight:700;margin-bottom:8px;color:var(--gold)">Semana ' + (fb.sem||'?') + ' — ' + (fb.data||'') + '</div>';
+    if (fb.peso)    html += '<div style="font-size:13px;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 8l7-5 7 5"/><path d="M3 16l4-8 4 8"/><path d="M13 16l4-8 4 8"/><line x1="1" y1="16" x2="9" y2="16"/><line x1="15" y1="16" x2="23" y2="16"/></svg> Peso: <b>' + fb.peso + ' kg</b></div>';
+    if (fb.treinos) html += '<div style="font-size:13px;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24"><path d="M6 4v16M18 4v16M6 8h12M6 16h12"/></svg> Treinos: ' + fb.treinos + '</div>';
+    if (fb.dieta)   html += '<div style="font-size:13px;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg> Dieta: ' + fb.dieta + '</div>';
+    if (fb.agua)    html += '<div style="font-size:13px;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2L6 12a6 6 0 1 0 12 0L12 2z"/></svg> Água: ' + fb.agua + '</div>';
+    if (fb.sono)    html += '<div style="font-size:13px;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Sono: ' + fb.sono + '</div>';
+    // Legacy: pesos array from old format
+    if (!fb.peso && fb.pesos && fb.pesos.length) {
+      for (var pi = fb.pesos.length-1; pi>=0; pi--) {
+        if (fb.pesos[pi]) { html += '<div style="font-size:13px;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><path d="M5 8l7-5 7 5"/><path d="M3 16l4-8 4 8"/><path d="M13 16l4-8 4 8"/><line x1="1" y1="16" x2="9" y2="16"/><line x1="15" y1="16" x2="23" y2="16"/></svg> Peso: <b>' + fb.pesos[pi] + ' kg</b></div>'; break; }
+      }
+    }
+    html += '</div>';
+  }
+  el.innerHTML = html;
+}
+
+
+function renderCronograma() {
+  var el = document.getElementById('cronograma-wrap');
+  if (!el) return;
+  var crono = aluna.crono || ['-','-','-','-','-','-','-'];
+  var dias = ['SEG','TER','QUA','QUI','SEX','SAB','DOM'];
+  // Detect today (0=Sun, 1=Mon...)
+  var jsDay = new Date().getDay();
+  // Convert JS day (0=Sun) to our index (0=Mon)
+  var todayIdx = jsDay === 0 ? 6 : jsDay - 1;
+
+  var html = '<div class="crono-wrap">';
+  html += '<div class="crono-title"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Cronograma Semanal</div>';
+  html += '<div class="crono-row">';
+  for (var di = 0; di < 7; di++) {
+    var val = crono[di] || '-';
+    var isToday = di === todayIdx;
+    var hasTraining = val !== '-' && val !== '';
+    var dayClass = 'crono-day';
+    if (isToday && hasTraining) dayClass += ' crono-today-active';
+    else if (isToday) dayClass += ' crono-today';
+    else if (hasTraining) dayClass += ' crono-active';
+
+    html += '<div class="' + dayClass + '">';
+    html += '<div class="crono-dia">' + dias[di] + '</div>';
+    html += '<div class="crono-num">' + (hasTraining ? val : '—') + '</div>';
+    if (isToday) html += '<div class="crono-dot"></div>';
+    html += '</div>';
+  }
+  html += '</div></div>';
+  el.innerHTML = html;
+}
+
+function renderPage() {
+  // HERO
+  document.getElementById('hero-wrap').innerHTML = '    <div class="hero">      <div class="hero-card">      <div class="htag">PLANO DE TREINO</div>      <h1>Olá, <span>' + (aluna.nome) + '</span>! </h1>      <div style="color:#aaa;font-size:13px;margin-top:4px">Seu plano personalizado de 6 semanas</div>      <div class="hinfo">        <div class="hitem"><div class="hlbl">OBJETIVO</div><div class="hval">' + (aluna.objetivo||'—') + '</div></div>        <div class="hitem"><div class="hlbl">PLANO</div><div class="hval">' + (aluna.plano||'—') + '</div></div>        <div class="hitem"><div class="hlbl">INÍCIO</div><div class="hval">' + (aluna.inicio||'—') + '</div></div>        <div class="hitem"><div class="hlbl">ENCERRAMENTO</div><div class="hval">' + (aluna.fim||'—') + '</div></div>      </div>    </div>';
+
+  document.getElementById('tabs-wrap').style.display = 'flex';
+
+  // MAIN CONTENT
+  var feedbackHTML = '';
+  var orientacoesHTML = '';
+  try { feedbackHTML = renderFeedbackForm(); } catch(e) { console.error('renderFeedbackForm:', e); }
+  try { orientacoesHTML = renderOrientacoes(); } catch(e) { console.error('renderOrientacoes:', e); }
+
+  var mainEl = document.getElementById('main-wrap');
+  mainEl.innerHTML =
+    '<div class="pg on" id="pg-treinos"><div id="treinos-container"></div><div id="cardio-abd-container" style="margin-top:16px"></div></div>' +
+    '<div class="pg" id="pg-feedback">' + feedbackHTML + '</div>' +
+    '<div class="pg" id="pg-historico"><div class="fcard"><div class="ftitle"><svg class="ico" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Histórico de Feedbacks</div><div id="hist-lista" style="color:var(--grey);font-size:13px">Nenhum feedback ainda.</div></div></div>' +
+    '<div class="pg" id="pg-orientacoes">' + orientacoesHTML + '</div>';
+
+  renderTreinos();
+  renderCardioAbd();
+  renderHist();
+  renderCronograma();
+  mostrarBoasVindas();
+}
+
+function mostrarBoasVindas() {
+  var key = 'bv_' + alunaId;
+  var jaViu = '';
+  try { jaViu = localStorage.getItem(key); } catch(e) {}
+  if (jaViu) return;
+  var overlay = document.getElementById('bv-overlay');
+  if (!overlay) return;
+  var primeiroNome = (aluna.nome || '').split(' ')[0];
+  var html = '<div style="text-align:center"><div class="bv-tag">BEM-VINDA!</div></div>';
+  html += '<h2 class="bv-title">Olá, <span>' + primeiroNome + '</span>!</h2>';
+  html += '<p class="bv-sub">Antes de começar, assista ao vídeo e leia as orientações do seu treino.</p>';
+  html += '<div class="bv-video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>';
+  html += '<p class="bv-caption">Assista ao vídeo acima para entender como funciona cada item da sua planilha de treino.</p>';
+  document.getElementById('bv-content').innerHTML = html;
+  overlay.style.display = 'flex';
+}
+
+window.fecharBoasVindas = function() {
+  try { localStorage.setItem('bv_' + alunaId, '1'); } catch(e) {}
+  var overlay = document.getElementById('bv-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+window.chkSem = function() {
+  var sel = document.getElementById('f-sem');
+  var al = document.getElementById('alerta6');
+  if (al) al.style.display = (sel && sel.value === '6') ? 'block' : 'none';
+}
+
+window.enviarFeedback = function() {
+  var sem = (document.getElementById('f-sem')||{}).value||'';
+  var treinos = (document.getElementById('f-treinos')||{}).value||'';
+  var pesoHoje = (document.getElementById('f-peso-hoje')||{}).value||'';
+  var dieta = (document.getElementById('f-dieta')||{}).value||'';
+  var agua = (document.getElementById('f-agua')||{}).value||'';
+  var sono = (document.getElementById('f-sono')||{}).value||'';
+  if (!sem) { alert('Selecione a semana antes de enviar.'); return; }
+  var sbtn = document.querySelector('.subbtn');
+  if (sbtn) { sbtn.disabled=true; sbtn.textContent='Enviando...'; }
+  var entry = { sem:sem, treinos:treinos, peso:pesoHoje, dieta:dieta, agua:agua, sono:sono, data:new Date().toLocaleDateString('pt-BR') };
+  db.collection('alunas').doc(alunaId).update({
+    feedbacks: firebase.firestore.FieldValue.arrayUnion(entry),
+    semAtual: parseInt(sem)
+  }).then(function() {
+    if (!aluna.feedbacks) aluna.feedbacks = [];
+    aluna.feedbacks.push(entry);
+    aluna.semAtual = parseInt(sem);
+    if (sbtn) { sbtn.disabled=false; sbtn.textContent='Enviar Feedback <svg class="ico" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>'; }
+    alert('<svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Feedback enviado!');
+    renderHist();
+  }).catch(function() {
+    if (sbtn) { sbtn.disabled=false; sbtn.textContent='Enviar Feedback <svg class="ico" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>'; }
+    alert('Erro ao enviar. Tente novamente.');
+  });
+}
+
+// ── INIT ──────────────────────────────────────────
+function init() {
+  if (!alunaId) { mostrarErro('Link inválido', 'Nenhuma aluna especificada neste link.'); return; }
+
+  // Step 1: Load aluna with timeout
+  withTimeout(db.collection('alunas').doc(alunaId).get(), 10000)
+    .then(function(snap) {
+      if (!snap.exists) { mostrarErro('Treino não encontrado', 'Verifique o link com seu treinador.'); return; }
+      aluna = snap.data();
+      cargas = aluna.cargas || {};
+
+      // Step 2: Render immediately — protected from internal errors
+      try {
+        renderPage();
+      } catch(re) {
+        console.error('renderPage error:', re);
+        // Render minimal fallback
+        document.getElementById('tabs-wrap').style.display = 'flex';
+        document.getElementById('main-wrap').innerHTML =
+          '<div class="pg on" id="pg-treinos"><div id="treinos-container"></div><div id="cardio-abd-container" style="margin-top:16px"></div></div>' +
+          '<div class="pg" id="pg-feedback"></div>' +
+          '<div class="pg" id="pg-historico"></div>' +
+          '<div class="pg" id="pg-orientacoes"></div>';
+        try { renderTreinos(); } catch(e2) {}
+        try { renderCardioAbd(); } catch(e2) {}
+      }
+
+      // Step 3: Load videos in background
+      db.collection('videos').get()
+        .then(function(vsnap) {
+          vsnap.forEach(function(d) { videosDB[d.id] = d.data().url; });
+          try { renderTreinos(); } catch(e) {}
+        })
+        .catch(function(e) { console.log('Videos not loaded:', e); });
+    })
+    .catch(function(e) {
+      if (e.message === 'timeout') {
+        mostrarErro('Tempo esgotado', 'Não foi possível carregar seu treino. Verifique sua conexão e tente novamente.');
+      } else {
+        mostrarErro('Erro ao carregar', 'Verifique sua conexão e tente novamente.');
+      }
+    });
+}
+
+// ── CAROUSEL SCALE EFFECT ──────────────────
+function initCarouselScale() {
+  var carousel = document.querySelector('.treino-carousel');
+  if (!carousel) return;
+  var cards = carousel.querySelectorAll('.treino-card');
+  if (!cards.length) return;
+
+  function updateScale() {
+    var cRect = carousel.getBoundingClientRect();
+    var cCenter = cRect.left + cRect.width / 2;
+    var closest = 0;
+    var minDist = Infinity;
+    for (var i = 0; i < cards.length; i++) {
+      var r = cards[i].getBoundingClientRect();
+      var cardCenter = r.left + r.width / 2;
+      var dist = Math.abs(cCenter - cardCenter);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    }
+    for (var j = 0; j < cards.length; j++) {
+      if (j === closest) {
+        cards[j].className = 'treino-card active';
+      } else {
+        cards[j].className = 'treino-card';
+      }
+    }
+  }
+
+  carousel.addEventListener('scroll', updateScale, {passive:true});
+  updateScale();
+}
+
+// Exercise expand delegation
+document.addEventListener('click', function(e) {
+  var hdr = e.target.closest('[data-eid]');
+  if (hdr && !e.target.closest('a') && !e.target.closest('button')) {
+    tog(hdr.getAttribute('data-eid'));
+  }
+});
+
+init();
+</script>
+</body>
+</html>
